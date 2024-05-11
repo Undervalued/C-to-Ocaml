@@ -2,7 +2,96 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include "lexer.h" #importe les fonctions du fichier lexer.c
+#include "lexer.h" 
+
+
+struct variables {
+    char* nom; // le nom de la variable
+    char* valeur;  // sa valeur
+};
+typedef struct variables variables;
+
+
+
+
+// Inutile, puisque on va changer la facon dont on va ecrire le fichier....
+maillon* easy_strings_jumper(maillon* depart, FILE* output){
+    while(depart->lexeme == 'P' && (strcmp(depart->argument, " ") == 0 || strcmp(depart->argument, "\n") == 0)){
+        // fprintf(output, "%s",depart->argument);
+        depart = depart->suivant;
+    }
+    return depart;
+}
+
+void write_variable(variables* v, FILE* output){
+    fprintf(output, "let %s = ref (%s)\n", v->nom, v->valeur);
+};
+
+maillon* variable_manager(maillon* depart, FILE* output){
+    variables* var = malloc(sizeof(variables));
+    var->nom = depart->argument;
+    depart = depart-> suivant;
+    char valeur_v[20] = "";
+
+
+    while(strcmp(depart->argument, "=") != 0){
+        // Empty for now... in case of needing it...
+        // On va jusqu'au debut de l'assignation de la valeur de la variable
+        depart = depart->suivant;
+    }
+    depart = depart->suivant;
+    while(strcmp(depart->argument, ";") != 0){
+        if(depart->lexeme == 'V'){
+            strcat(valeur_v, " !");
+            strcat(valeur_v, depart->argument);
+        }
+        else{
+            strcat(valeur_v, depart->argument);
+        }
+        printf("%c %s \n", depart->lexeme, depart->argument);
+        depart = depart->suivant;
+    }
+    printf("EOF %s\n", valeur_v);
+    var->valeur = valeur_v;
+    write_variable(var, output);
+    return depart;
+    
+}
+
+
+
+
+
 
 int main(){
+
+    FILE* input = fopen("s.c", "r");
+    FILE* output = fopen("d.ml", "a");
+
+    maillon* maillons = lexeur(input);
+    // affiche_liste(maillons);
+
+    while (maillons != NULL){
+        if(maillons->lexeme == 'V'){
+            // Detection d'assignation d'une variable
+            maillon* maillon2 = easy_strings_jumper(maillons->suivant, output);
+            if(strcmp(maillon2->argument, "=") == 0){
+                maillons = variable_manager(maillons, output);
+            }
+
+            
+        }
+
+        maillons = maillons -> suivant;
+
+    }
+
+    fclose(input);
+    fclose(output);
+    
+    // printf("%c %s", maillons->suivant->lexeme, maillons->suivant->argument);
+
+
+
+    //printf("Hello, World!");
 }
