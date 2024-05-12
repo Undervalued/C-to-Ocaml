@@ -27,7 +27,7 @@ void write_variable(variables* v, FILE* output){
     fprintf(output, "let %s = ref (%s);;\n", v->nom, v->valeur);
 };
 //
-// Manque a gerer: x = x+2; (C) -> x := !x + 2;; (OCaml)
+// Manque a gerer: x = x+2; (C) -> x := !x + 2;; (OCaml) IE la modification des valeurs.
 maillon* variable_manager(maillon* depart, FILE* output){
     variables* var = malloc(sizeof(variables));
     var->nom = depart->argument;
