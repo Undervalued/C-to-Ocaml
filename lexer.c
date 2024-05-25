@@ -234,6 +234,18 @@ maillon* lexeur (FILE* fichier){
             else {ajoute_maillon_fin (&fin, 'V', chaine);}
             // 'V' pour indiquer une variable
         }
+        //Cas 7 : on rencontre des choses a ignorer (include)
+        else if (c=='#'){
+          while (c != '\n'){
+            buffer[len_buffer] = c;
+            len_buffer++;
+            c = fgetc(fichier);
+          }
+          buffer[len_buffer] = c;
+          len_buffer++;
+          c = fgetc(fichier);
+          continue;
+        }
         //Dernier cas : on est face à quelque chose d'anormal
         else{
             fprintf(stderr, "Le charactère %c de numéro %d n'a pas été reconnu.", c, (int) c);
