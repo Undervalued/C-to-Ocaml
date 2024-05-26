@@ -24,7 +24,11 @@ maillon* easy_strings_jumper(maillon* depart, FILE* output){
 }
 
 void write_variable(variables* v, FILE* output){
-    fprintf(output, "let %s = ref (%s);;\n", v->nom, v->valeur);
+    fprintf(output, "let %s = ref(%s);;\n", v->nom, v->valeur);
+};
+
+void rewrite_variable(variables* v, FILE* output){
+    fprintf(output, "%s :=(%s);;\n", v->nom, v->valeur);
 };
 //
 // Manque a gerer: x = x+2; (C) -> x := !x + 2;; (OCaml) IE la modification des valeurs.
@@ -33,6 +37,7 @@ maillon* variable_manager(maillon* depart, FILE* output){
     var->nom = depart->argument;
     depart = depart-> suivant;
     char valeur_v[20] = "";
+    
 
 
     while(strcmp(depart->argument, "=") != 0){
@@ -43,7 +48,7 @@ maillon* variable_manager(maillon* depart, FILE* output){
     depart = depart->suivant;
     while(strcmp(depart->argument, ";") != 0){
         if(depart->lexeme == 'V'){
-            strcat(valeur_v, " !");
+            strcat(valeur_v, "!");
             strcat(valeur_v, depart->argument);
         }
         else{
@@ -59,10 +64,40 @@ maillon* variable_manager(maillon* depart, FILE* output){
     
 }
 
+maillon* old_variable_manager(maillon* depart, FILE* output){
+    variables* var = malloc(sizeof(variables));
+    var->nom = depart->argument;
+    depart = depart-> suivant;
+    char valeur_v[20] = "";
+    
 
 
+    while(strcmp(depart->argument, "=") != 0){
+        // Empty for now... in case of needing it...
+        // On va jusqu'au debut de l'assignation de la valeur de la variable
+        depart = depart->suivant;
+    }
+    depart = depart->suivant;
+    while(strcmp(depart->argument, ";") != 0){
+        if(depart->lexeme == 'V'){
+            strcat(valeur_v, "!");
+            strcat(valeur_v, depart->argument);
+        }
+        else{
+            strcat(valeur_v, depart->argument);
+        }
+        printf("%c %s \n", depart->lexeme, depart->argument);
+        depart = depart->suivant;
+    }
+    printf("EOF %s\n", valeur_v);
+    var->valeur = valeur_v;
+    rewrite_variable(var, output);
+    return depart;
+    
+}
 
-void maincode(){
+
+/* void maincode(){
     FILE* input = fopen("s.c", "r");
     FILE* output = fopen("d.ml", "a");
 
@@ -70,11 +105,27 @@ void maincode(){
     // affiche_liste(maillons);
 
     while (maillons != NULL){
+        if(maillons->lexeme == 'T'){
+            while(maillons->lexeme != 'V' || maillons->lexeme != 'M'){
+                maillons = maillons -> suivant;
+            }
+            if(maillons->lexeme == 'V'){
+                // Detection d'assignation d'une variable
+                maillon* maillon2 = easy_strings_jumper(maillons->suivant, output);
+                if(strcmp(maillon2->argument, "=") == 0){
+                    maillons = variable_manager(maillons, output);
+                }
+            }
+            else{
+                continue;
+            }
+
+        }
         if(maillons->lexeme == 'V'){
             // Detection d'assignation d'une variable
             maillon* maillon2 = easy_strings_jumper(maillons->suivant, output);
             if(strcmp(maillon2->argument, "=") == 0){
-                maillons = variable_manager(maillons, output);
+                maillons = old_variable_manager(maillons, output);
             }
         }
 
@@ -84,30 +135,46 @@ void maincode(){
 
     fclose(input);
     fclose(output);
-};
+}; */
 
 int main(){
 
     FILE* input = fopen("s.c", "r");
-    FILE* output = fopen("d.ml", "a");
+    FILE* output = fopen("d.ml", "w+");
 
     maillon* maillons = lexeur(input);
     affiche_liste(maillons);
 
-    // while (maillons != NULL){
-    //     if(maillons->lexeme == 'V'){
-    //         // Detection d'assignation d'une variable
-    //         maillon* maillon2 = easy_strings_jumper(maillons->suivant, output);
-    //         if(strcmp(maillon2->argument, "=") == 0){
-    //             maillons = variable_manager(maillons, output);
-    //         }
+    while (maillons->lexeme != 'A'){
+        maillons = maillons -> suivant;
+    }
 
-            
-    //     }
+    maillons = maillons -> suivant;
 
-    //     maillons = maillons -> suivant;
+    while (maillons != NULL){
+        if(maillons->lexeme == 'T'){
+            while(maillons->lexeme != 'V'){
+                maillons = maillons -> suivant;
+            }
+            // Detection d'assignation d'une variable
+            maillon* maillon = easy_strings_jumper(maillons->suivant, output);
+            if(strcmp(maillon->argument, "=") == 0){
+                maillons = variable_manager(maillons, output); //Attention il y a un bug dans le lexer qui pour l'instant ne cause pas de souci à partir d'ici
+            }
+        } 
 
-    // }
+        
+        if(maillons->lexeme == 'V'){
+            // Detection de réassignation d'une variable
+            maillon* maillon = easy_strings_jumper(maillons->suivant, output);
+            if(strcmp(maillon->argument, "=") == 0){
+                maillons = old_variable_manager(maillons, output);
+            }
+        }
+
+    maillons = maillons -> suivant;
+
+    }
 
     fclose(input);
     fclose(output);
