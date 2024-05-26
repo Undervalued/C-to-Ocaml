@@ -48,6 +48,8 @@ const char operateurs_simples[] = {'+', '-', '/', '*', '%'};
 const int len_ops = 5;
 const char operateurs_doubles[] = {'=', '|', '&','<','>','!'};
 const int len_opd = 6;
+const char* mots_skips [] = {"main"};
+const int len_ski = 1;
 
 const char operateurs_commentaires[] = {};
 
@@ -224,12 +226,19 @@ maillon* lexeur (FILE* fichier){
             }
             char* chaine = cree_arg(buffer, len_buffer);
             if (string_in(chaine, type, len_type)){
-                ajoute_maillon_fin (&fin, 'T', chaine);
-                // 'T' pour indiquer un type
+                
+            ajoute_maillon_fin (&fin, 'T', chaine);
+            // 'T' pour indiquer un type
+                
             }
+            
             else if (string_in(chaine, motcle, len_motcle)){
                 ajoute_maillon_fin (&fin, 'M', chaine);
                 // 'M' pour indiquer un mot clé
+            }
+            else if (string_in(chaine, mots_skips, len_ski)){
+                ajoute_maillon_fin (&fin, 'A', chaine);
+                // 'A' pcq pas d'inspi
             }
             else {ajoute_maillon_fin (&fin, 'V', chaine);}
             // 'V' pour indiquer une variable
