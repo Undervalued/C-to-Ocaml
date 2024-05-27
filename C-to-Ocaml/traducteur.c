@@ -137,10 +137,42 @@ maillon* old_variable_manager(maillon* depart, FILE* output){
     fclose(output);
 }; */
 
+maillon* call_function_manager(maillon* depart, FILE* output){
+    variables* var = malloc(sizeof(variables));
+    var->nom = depart->argument;
+    depart = depart-> suivant;
+    char valeur_v[20] = "";
+    char appel_f[20] = "";
+
+
+    /*while(strcmp(depart->argument, "=") != 0){
+        // Empty for now... in case of needing it...
+        // On va jusqu'au debut de l'assignation de la valeur de la variable
+        depart = depart->suivant;
+    }*/
+    depart = depart->suivant;
+    strcat(appel_f, "(");
+    strcat(appel_f, var->nom);
+    while(strcmp(depart->argument, ")") != 0){
+        if(depart->lexeme == 'V'){
+            strcat(valeur_v, depart->argument);
+        }
+        if (depart->lexeme == 'S'){
+            strcat(valeur_v, depart->argument);
+        }
+        printf("%c %s \n", depart->lexeme, depart->argument);
+        depart = depart->suivant;
+    }
+    printf("EOF %s\n", valeur_v);
+    var->valeur = valeur_v;
+    rewrite_variable(var, output);
+    return depart;
+    
+}
 int main(){
 
-    FILE* input = fopen("s.c", "r");
-    FILE* output = fopen("d.ml", "w+");
+    FILE* input = fopen("/Users/robin/Workspace_Developpement/XCode/C-to-Ocaml/C-to-Ocaml/s.c", "r");
+    FILE* output = fopen("/Users/robin/Workspace_Developpement/XCode/C-to-Ocaml/C-to-Ocaml/d.ml", "w+");
 
     maillon* maillons = lexeur(input);
     affiche_liste(maillons);
@@ -160,8 +192,10 @@ int main(){
             maillon* maillon = easy_strings_jumper(maillons->suivant, output);
             if(strcmp(maillon->argument, "=") == 0){
                 maillons = variable_manager(maillons, output); //Attention il y a un bug dans le lexer qui pour l'instant ne cause pas de souci à partir d'ici
+            }else if (strcmp(maillon->argument, "(") == 0){
+                maillons = call_function_manager (maillons,output);
             }
-        } 
+        }
 
         
         if(maillons->lexeme == 'V'){

@@ -38,8 +38,8 @@ void libere_liste (maillon* debut){
 
 // Ici on définit des lexèmes qui nous intéressent. Si vous en rajoutez, pensez à changer la taille des tableaux.
 
-const char ponctuation[] = {'(', ')', '{', '}', ' ', '\n', ';'};
-const int len_ponctuation = 7;
+const char ponctuation[] = {'(', ')', '{', '}', ' ', '\n', ';', ','};
+const int len_ponctuation = 8;
 const char* type[] = {"bool", "int", "void"};
 const int len_type = 3; 
 const char* motcle[] = {"while", "printf"};
@@ -239,6 +239,9 @@ maillon* lexeur (FILE* fichier){
             else if (string_in(chaine, mots_skips, len_ski)){
                 ajoute_maillon_fin (&fin, 'A', chaine);
                 // 'A' pcq pas d'inspi
+            }
+            else if (string_in(chaine, mots_skips, len_ski)){
+                ajoute_maillon_fin (&fin, 'G', chaine);
             }
             else {ajoute_maillon_fin (&fin, 'V', chaine);}
             // 'V' pour indiquer une variable

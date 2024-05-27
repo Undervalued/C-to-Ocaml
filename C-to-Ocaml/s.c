@@ -8,4 +8,5 @@ int main(){
     int y = x + 4;
     x = 6;
     y = y + 7;
+    printf ("testz",nini);
 }
