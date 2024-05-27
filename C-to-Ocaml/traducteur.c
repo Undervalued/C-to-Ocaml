@@ -24,12 +24,17 @@ maillon* easy_strings_jumper(maillon* depart, FILE* output){
 }
 
 void write_variable(variables* v, FILE* output){
-    fprintf(output, "let %s = ref(%s);;\n", v->nom, v->valeur);
+    fprintf(output, "let %s = ref(%s) in\n", v->nom, v->valeur);
 };
 
 void rewrite_variable(variables* v, FILE* output){
-    fprintf(output, "%s :=(%s);;\n", v->nom, v->valeur);
+    fprintf(output, "%s :=(%s);\n", v->nom, v->valeur);
 };
+
+void commentaire_manager(maillon* m, FILE* output){
+    char* afficher = m->argument;
+    fprintf(output, "(*%s*)\n", afficher);
+} 
 //
 // Manque a gerer: x = x+2; (C) -> x := !x + 2;; (OCaml) IE la modification des valeurs.
 maillon* variable_manager(maillon* depart, FILE* output){
@@ -184,7 +189,10 @@ int main(){
     maillons = maillons -> suivant;
 
     while (maillons != NULL){
-        if(maillons->lexeme == 'T'){
+        if(maillons->lexeme == 'C'){
+            commentaire_manager(maillons, output);
+        }
+        else if(maillons->lexeme == 'T'){
             while(maillons->lexeme != 'V'){
                 maillons = maillons -> suivant;
             }
@@ -198,7 +206,7 @@ int main(){
         }
 
         
-        if(maillons->lexeme == 'V'){
+        else if(maillons->lexeme == 'V'){
             // Detection de réassignation d'une variable
             maillon* maillon = easy_strings_jumper(maillons->suivant, output);
             if(strcmp(maillon->argument, "=") == 0){
