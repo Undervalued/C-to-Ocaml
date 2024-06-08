@@ -11,7 +11,6 @@
 void Line_Analyse (maillon* start){
     assert (start != NULL);
     while (start != NULL){
-        printf("lex1 : %c\n",start->lexeme);
         if (start->lexeme=='T'){
             AssignSymbolDeclaration(start);
             

@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00C687E52C047A3000F79941 /* traducteur.c in Sources */ = {isa = PBXBuildFile; fileRef = 00C687E12C047A3000F79941 /* traducteur.c */; };
-		00C687E62C047A3000F79941 /* lexer.c in Sources */ = {isa = PBXBuildFile; fileRef = 00C687E32C047A3000F79941 /* lexer.c */; };
+		00A3B6BF2C15152C00E34DFD /* Declaration_Manager.c in Sources */ = {isa = PBXBuildFile; fileRef = 00A3B6B22C1514A800E34DFD /* Declaration_Manager.c */; };
+		00A3B6C02C15152C00E34DFD /* Manager.c in Sources */ = {isa = PBXBuildFile; fileRef = 00A3B6B32C1514A800E34DFD /* Manager.c */; };
+		00A3B6C12C15152C00E34DFD /* lexer.c in Sources */ = {isa = PBXBuildFile; fileRef = 00A3B6B62C1514A800E34DFD /* lexer.c */; };
+		00A3B6C42C15152C00E34DFD /* traducteur.c in Sources */ = {isa = PBXBuildFile; fileRef = 00A3B6BC2C1514A800E34DFD /* traducteur.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,13 +27,18 @@
 
 /* Begin PBXFileReference section */
 		00924A5C2C0479E1009AE46A /* C-to-Ocaml */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "C-to-Ocaml"; sourceTree = BUILT_PRODUCTS_DIR; };
-		00C687DD2C047A3000F79941 /* d.ml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = d.ml; sourceTree = "<group>"; };
-		00C687DE2C047A3000F79941 /* s.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = s.c; sourceTree = "<group>"; };
-		00C687DF2C047A3000F79941 /* lexer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lexer.h; sourceTree = "<group>"; };
-		00C687E02C047A3000F79941 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		00C687E12C047A3000F79941 /* traducteur.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = traducteur.c; path = "C-to-Ocaml/traducteur.c"; sourceTree = SOURCE_ROOT; };
-		00C687E22C047A3000F79941 /* MP2I_2023-2024_projet_traducteur.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "MP2I_2023-2024_projet_traducteur.pdf"; sourceTree = "<group>"; };
-		00C687E32C047A3000F79941 /* lexer.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lexer.c; sourceTree = "<group>"; };
+		00A3B6AE2C1514A800E34DFD /* Declaration_Manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Declaration_Manager.h; sourceTree = "<group>"; };
+		00A3B6AF2C1514A800E34DFD /* Manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Manager.h; sourceTree = "<group>"; };
+		00A3B6B02C1514A800E34DFD /* Variable_Manager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Variable_Manager.h; sourceTree = "<group>"; };
+		00A3B6B22C1514A800E34DFD /* Declaration_Manager.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Declaration_Manager.c; sourceTree = "<group>"; };
+		00A3B6B32C1514A800E34DFD /* Manager.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = Manager.c; sourceTree = "<group>"; };
+		00A3B6B62C1514A800E34DFD /* lexer.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = lexer.c; sourceTree = "<group>"; };
+		00A3B6B72C1514A800E34DFD /* lexer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = lexer.h; sourceTree = "<group>"; };
+		00A3B6B82C1514A800E34DFD /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		00A3B6B92C1514A800E34DFD /* MP2I_2023-2024_projet_traducteur.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = "MP2I_2023-2024_projet_traducteur.pdf"; sourceTree = "<group>"; };
+		00A3B6BA2C1514A800E34DFD /* s.ml */ = {isa = PBXFileReference; lastKnownFileType = text; path = s.ml; sourceTree = "<group>"; };
+		00A3B6BC2C1514A800E34DFD /* traducteur.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = traducteur.c; sourceTree = "<group>"; };
+		00A3B6BD2C1514A800E34DFD /* traducteur.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = traducteur.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -48,7 +55,7 @@
 		00924A532C0479E1009AE46A = {
 			isa = PBXGroup;
 			children = (
-				00924A5E2C0479E1009AE46A /* C-to-Ocaml */,
+				00A3B6BE2C1514A800E34DFD /* C-to-Ocaml */,
 				00924A5D2C0479E1009AE46A /* Products */,
 			);
 			sourceTree = "<group>";
@@ -61,16 +68,45 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		00924A5E2C0479E1009AE46A /* C-to-Ocaml */ = {
+		00A3B6B12C1514A800E34DFD /* Headers */ = {
 			isa = PBXGroup;
 			children = (
-				00C687DD2C047A3000F79941 /* d.ml */,
-				00C687E32C047A3000F79941 /* lexer.c */,
-				00C687DF2C047A3000F79941 /* lexer.h */,
-				00C687E22C047A3000F79941 /* MP2I_2023-2024_projet_traducteur.pdf */,
-				00C687E02C047A3000F79941 /* README.md */,
-				00C687DE2C047A3000F79941 /* s.c */,
-				00C687E12C047A3000F79941 /* traducteur.c */,
+				00A3B6AE2C1514A800E34DFD /* Declaration_Manager.h */,
+				00A3B6AF2C1514A800E34DFD /* Manager.h */,
+				00A3B6B02C1514A800E34DFD /* Variable_Manager.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		00A3B6B42C1514A800E34DFD /* src */ = {
+			isa = PBXGroup;
+			children = (
+				00A3B6B22C1514A800E34DFD /* Declaration_Manager.c */,
+				00A3B6B32C1514A800E34DFD /* Manager.c */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		00A3B6B52C1514A800E34DFD /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				00A3B6B12C1514A800E34DFD /* Headers */,
+				00A3B6B42C1514A800E34DFD /* src */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		00A3B6BE2C1514A800E34DFD /* C-to-Ocaml */ = {
+			isa = PBXGroup;
+			children = (
+				00A3B6B52C1514A800E34DFD /* Manager */,
+				00A3B6B62C1514A800E34DFD /* lexer.c */,
+				00A3B6B72C1514A800E34DFD /* lexer.h */,
+				00A3B6B82C1514A800E34DFD /* main.c */,
+				00A3B6B92C1514A800E34DFD /* MP2I_2023-2024_projet_traducteur.pdf */,
+				00A3B6BA2C1514A800E34DFD /* s.ml */,
+				00A3B6BC2C1514A800E34DFD /* traducteur.c */,
+				00A3B6BD2C1514A800E34DFD /* traducteur.h */,
 			);
 			path = "C-to-Ocaml";
 			sourceTree = "<group>";
@@ -132,8 +168,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00C687E62C047A3000F79941 /* lexer.c in Sources */,
-				00C687E52C047A3000F79941 /* traducteur.c in Sources */,
+				00A3B6BF2C15152C00E34DFD /* Declaration_Manager.c in Sources */,
+				00A3B6C02C15152C00E34DFD /* Manager.c in Sources */,
+				00A3B6C12C15152C00E34DFD /* lexer.c in Sources */,
+				00A3B6C42C15152C00E34DFD /* traducteur.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

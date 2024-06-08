@@ -22,7 +22,7 @@ void affiche_liste (maillon* debut){
 
 void write_list (maillon* debut){
     //Écris la liste dans un fichier
-    FILE* file = fopen("/Users/robin/Workspace_Developpement/XCode/Deepmle/Deepmle/fichier.ml", "w");
+    FILE* file = fopen("/Users/robin/Workspace_Developpement/XCode/C-to-Ocaml/C-to-Ocaml/s.ml", "w");
     debut = debut->suivant;
     while (debut != NULL){
         fprintf(file, "%s",debut->argument);
