@@ -121,12 +121,66 @@ maillon* lexeur (FILE* fichier){
             c = fgetc(fichier);
         }
         // Cas 3 : on récupère un opérateur qui n'apparait que seul
+        // Modification pour le / detecte, puisque // ou /*..*/ est un commentaire
         else if ( char_in (c, operateurs_simples, len_ops)){
-            char* chaine= cree_arg(&c, 1);
-            ajoute_maillon_fin (&fin, 'O' , chaine);
-            // 'O' pour indiquer un opérateur
-            c = fgetc(fichier);
+            if(c == '/'){
+                char d = c;
+                c = fgetc(fichier);
+                // Commentaire de type /* ... */
+                // Ce type de commentaire s'arrete lorsqu'on rencontre */
+                if(c == '*'){
+                    c = fgetc(fichier); // on a le char "", qu on va sauter...
+                    // On lit le commentaire dans sa totalite
+                    buffer[len_buffer] = c;
+                    len_buffer++;
+                    c = fgetc(fichier);
+                    // On detecte */ a l'aide du buffer
+                    while(c != '/' && buffer[len_buffer-1] != '*'){
+                        buffer[len_buffer] = c;
+                        len_buffer++;
+                        c = fgetc(fichier);
+                    }
+                    c = fgetc(fichier); // On lit le dernier "/" qu'on jette a la poubelle
+                    ajoute_maillon_fin (&fin, 'C', cree_arg(buffer, len_buffer-1));
+
+                }
+                // Commentaire de type // ...
+                // Ce type de commentaire s'arrete lorsqu'on rencontre \n
+                else if(c == '/'){
+                    c = fgetc(fichier); // on a le char "/", qu on va sauter...
+                    // On lit le commentaire dans sa totalite
+                    buffer[len_buffer] = c;
+                    len_buffer++;
+                    c = fgetc(fichier);
+                    while(c != '\n'){
+                        // Le cas ou le commentaire est vraiment la derniere ligne...
+                        if(c == EOF){
+                            break;
+                        }
+                        buffer[len_buffer] = c;
+                        len_buffer++;
+                        c = fgetc(fichier);
+                    }
+                    // On l'ajoute comme lex C
+                    ajoute_maillon_fin (&fin, 'C', cree_arg(buffer, len_buffer));
+                }
+                else{
+                    char* chaine= cree_arg(&c, 1);
+                    ajoute_maillon_fin (&fin, 'O' , chaine);
+                    // 'O' pour indiquer un opérateur
+                    c = fgetc(fichier);
+                }
+
+            }
+            else{
+                char* chaine= cree_arg(&c, 1);
+                ajoute_maillon_fin (&fin, 'O' , chaine);
+                // 'O' pour indiquer un opérateur
+                c = fgetc(fichier);
+
+            }
         }
+
         // Cas 4 : on récupère un opérateur qui peut apparaitre seul et/ou à côté d'un autre
         else if ( char_in (c, operateurs_doubles, len_opd)){
             char d = c;
