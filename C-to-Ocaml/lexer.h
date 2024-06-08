@@ -1,10 +1,9 @@
+#ifndef lexer_h
+#define lexer_h
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
-
-// Vous regardez un fichier de header .h. Son but est de décrire les types et les fonctions utilisés dans le fichier de code .c pour pouvoir les utiliser dans d'autres fichiers.
-
 struct maillon {
     char lexeme; // le nom du lexème
     char* argument;  // sa valeur, on prendra NULL s'il n'y a pas besoin d'argument
@@ -13,6 +12,9 @@ struct maillon {
 };
 
 typedef struct maillon maillon;
+
+
+void write_list (maillon* debut);
 
 void ajoute_maillon_fin (maillon** pfin, char lex, char* arg);
 
@@ -26,4 +28,6 @@ bool string_in ( char* c, const char* tab[], const int len);
 
 char* cree_arg( char* buffer, const int len);
 
+maillon* easy_strings_jumper(maillon* depart);
 maillon* lexeur (FILE* fichier);
+#endif

@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -138,44 +139,24 @@ maillon* old_variable_manager(maillon* depart, FILE* output){
 
     }
 
+=======
+#include "traducteur.h"
+FILE* input;
+FILE* output;
+int main(void){
+    input = fopen("/Users/robin/Workspace_Developpement/XCode/Deepmle/Deepmle/main.c","r");
+    output = fopen("/Users/robin/Workspace_Developpement/XCode/Deepmle/Deepmle/s.ml", "w+");
+    maillon* lex = lexeur(input);
+    lex = lex->suivant;
+    affiche_liste(lex);
+    Line_Analyse(lex);
+    //write_list(lex);
+>>>>>>> Stashed changes
     fclose(input);
     fclose(output);
-}; */
-
-maillon* call_function_manager(maillon* depart, FILE* output){
-    variables* var = malloc(sizeof(variables));
-    var->nom = depart->argument;
-    depart = depart-> suivant;
-    char valeur_v[20] = "";
-    char appel_f[20] = "";
-
-
-    /*while(strcmp(depart->argument, "=") != 0){
-        // Empty for now... in case of needing it...
-        // On va jusqu'au debut de l'assignation de la valeur de la variable
-        depart = depart->suivant;
-    }*/
-    depart = depart->suivant;
-    strcat(appel_f, "(");
-    strcat(appel_f, var->nom);
-    while(strcmp(depart->argument, ")") != 0){
-        if(depart->lexeme == 'V'){
-            strcat(valeur_v, depart->argument);
-        }
-        if (depart->lexeme == 'S'){
-            strcat(valeur_v, depart->argument);
-        }
-        printf("%c %s \n", depart->lexeme, depart->argument);
-        depart = depart->suivant;
-    }
-    printf("EOF %s\n", valeur_v);
-    var->valeur = valeur_v;
-    rewrite_variable(var, output);
-    return depart;
-    
 }
-int main(){
 
+<<<<<<< Updated upstream
     FILE* input = fopen("/Users/robin/Workspace_Developpement/XCode/C-to-Ocaml/C-to-Ocaml/s.c", "r");
     FILE* output = fopen("/Users/robin/Workspace_Developpement/XCode/C-to-Ocaml/C-to-Ocaml/d.ml", "w+");
 
@@ -220,10 +201,9 @@ int main(){
 
     fclose(input);
     fclose(output);
+=======
+void Line_Writer(char* line){
+>>>>>>> Stashed changes
     
-    // printf("%c %s", maillons->suivant->lexeme, maillons->suivant->argument);
-
-
-
-    //printf("Hello, World!");
-}
+    fprintf(output, "%s;;\n",line);
+};

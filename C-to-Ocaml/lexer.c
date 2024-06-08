@@ -1,7 +1,3 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdbool.h>
 #include "lexer.h"
 
 // La définition du type maillon a été déplacée dans le fichier lexer.h
@@ -24,11 +20,21 @@ void affiche_liste (maillon* debut){
     }
 }
 
+void write_list (maillon* debut){
+    //Écris la liste dans un fichier
+    FILE* file = fopen("/Users/robin/Workspace_Developpement/XCode/Deepmle/Deepmle/fichier.ml", "w");
+    debut = debut->suivant;
+    while (debut != NULL){
+        fprintf(file, "%s",debut->argument);
+        debut = debut-> suivant;
+    }
+    fclose(file);
+}
 void libere_liste (maillon* debut){
     //Libère tous les maillons
     if (debut != NULL){
         libere_liste(debut->suivant);
-        // Le "hack" suivant ne marche que si l'argument est allloué dans le tas (avec malloc) :
+        // Le "hack" suivant ne marche que si l'argument est alloué dans le tas (avec malloc) :
         if (debut->argument != NULL){
             free(debut->argument);
         }
@@ -38,20 +44,17 @@ void libere_liste (maillon* debut){
 
 // Ici on définit des lexèmes qui nous intéressent. Si vous en rajoutez, pensez à changer la taille des tableaux.
 
-const char ponctuation[] = {'(', ')', '{', '}', ' ', '\n', ';', ','};
+const char ponctuation[] = {'{', '}', ';', ',', '[',']'};
 const int len_ponctuation = 8;
 const char* type[] = {"bool", "int", "void"};
-const int len_type = 3; 
-const char* motcle[] = {"while", "printf"};
-const int len_motcle = 2;
+//TODO : Pour le préprocessing
+const int len_type = 3;
+const char* motcle[] = {"while"};
+const int len_motcle = 1;
 const char operateurs_simples[] = {'+', '-', '/', '*', '%'};
 const int len_ops = 5;
 const char operateurs_doubles[] = {'=', '|', '&','<','>','!'};
 const int len_opd = 6;
-const char* mots_skips [] = {"main"};
-const int len_ski = 1;
-
-const char operateurs_commentaires[] = {};
 
 bool char_in ( char c, const char tab[], const int len){
     //Teste si le caractère est dans le tableau (il nous faut sa longueur)
@@ -82,8 +85,6 @@ char* cree_arg( char* buffer, const int len) {
     arg[len]='\0';
     return arg;
 }
-
-
 
 maillon* lexeur (FILE* fichier){
     maillon* debut = malloc(sizeof(maillon)); //Premier maillon
@@ -120,64 +121,11 @@ maillon* lexeur (FILE* fichier){
             c = fgetc(fichier);
         }
         // Cas 3 : on récupère un opérateur qui n'apparait que seul
-        // Modification pour le / detecte, puisque // ou /*..*/ est un commentaire
         else if ( char_in (c, operateurs_simples, len_ops)){
-            if(c == '/'){
-                char d = c;
-                c = fgetc(fichier);
-                // Commentaire de type /* ... */
-                // Ce type de commentaire s'arrete lorsqu'on rencontre */
-                if(c == '*'){
-                    c = fgetc(fichier); // on a le char "", qu on va sauter...
-                    // On lit le commentaire dans sa totalite
-                    buffer[len_buffer] = c;
-                    len_buffer++;
-                    c = fgetc(fichier);
-                    // On detecte */ a l'aide du buffer
-                    while(c != '/' && buffer[len_buffer-1] != '*'){ 
-                        buffer[len_buffer] = c;
-                        len_buffer++;
-                        c = fgetc(fichier);
-                    }
-                    c = fgetc(fichier); // On lit le dernier "/" qu'on jette a la poubelle
-                    ajoute_maillon_fin (&fin, 'C', cree_arg(buffer, len_buffer-1));
-
-                }
-                // Commentaire de type // ...
-                // Ce type de commentaire s'arrete lorsqu'on rencontre \n
-                else if(c == '/'){
-                    c = fgetc(fichier); // on a le char "/", qu on va sauter...
-                    // On lit le commentaire dans sa totalite
-                    buffer[len_buffer] = c;
-                    len_buffer++;
-                    c = fgetc(fichier);
-                    while(c != '\n'){
-                        // Le cas ou le commentaire est vraiment la derniere ligne...
-                        if(c == EOF){
-                            break;
-                        }
-                        buffer[len_buffer] = c;
-                        len_buffer++;
-                        c = fgetc(fichier);
-                    }
-                    // On l'ajoute comme lex C
-                    ajoute_maillon_fin (&fin, 'C', cree_arg(buffer, len_buffer));
-                }
-                else{
-                    char* chaine= cree_arg(&c, 1);
-                    ajoute_maillon_fin (&fin, 'O' , chaine);
-                    // 'O' pour indiquer un opérateur
-                    c = fgetc(fichier); 
-                }
-
-            }
-            else{
-                char* chaine= cree_arg(&c, 1);
-                ajoute_maillon_fin (&fin, 'O' , chaine);
-                // 'O' pour indiquer un opérateur
-                c = fgetc(fichier);
-
-            }
+            char* chaine= cree_arg(&c, 1);
+            ajoute_maillon_fin (&fin, 'O' , chaine);
+            // 'O' pour indiquer un opérateur
+            c = fgetc(fichier);
         }
         // Cas 4 : on récupère un opérateur qui peut apparaitre seul et/ou à côté d'un autre
         else if ( char_in (c, operateurs_doubles, len_opd)){
@@ -226,38 +174,47 @@ maillon* lexeur (FILE* fichier){
             }
             char* chaine = cree_arg(buffer, len_buffer);
             if (string_in(chaine, type, len_type)){
-                
-            ajoute_maillon_fin (&fin, 'T', chaine);
-            // 'T' pour indiquer un type
-                
+                ajoute_maillon_fin (&fin, 'T', chaine);
+                // 'T' pour indiquer un type
             }
-            
             else if (string_in(chaine, motcle, len_motcle)){
                 ajoute_maillon_fin (&fin, 'M', chaine);
                 // 'M' pour indiquer un mot clé
             }
-            else if (string_in(chaine, mots_skips, len_ski)){
-                ajoute_maillon_fin (&fin, 'A', chaine);
-                // 'A' pcq pas d'inspi
-            }
-            else if (string_in(chaine, mots_skips, len_ski)){
-                ajoute_maillon_fin (&fin, 'G', chaine);
-            }
             else {ajoute_maillon_fin (&fin, 'V', chaine);}
             // 'V' pour indiquer une variable
         }
-        //Cas 7 : on rencontre des choses a ignorer (include)
-        else if (c=='#'){
-          while (c != '\n'){
-            buffer[len_buffer] = c;
-            len_buffer++;
-            c = fgetc(fichier);
-          }
-          buffer[len_buffer] = c;
-          len_buffer++;
-          c = fgetc(fichier);
-          continue;
-        }
+        /*
+         EDIT (robin) : Il y a certaine chose que j'ai rajouté comme le retour chariot et les espaces
+        */
+       else if (c == ' '){
+           char* chaine= cree_arg(&c, 1);
+           ajoute_maillon_fin (&fin,  '_' , chaine);
+           // 'P' pour indiquer de la ponctuation
+           c = fgetc(fichier);
+       }
+       else if (c == '\n'){
+           char* chaine= cree_arg(&c, 1);
+           ajoute_maillon_fin (&fin,  'N' , chaine);
+           // 'N' pour indiquer un retour chariot
+           c = fgetc(fichier);
+       }
+        //Gestion des arguments
+       else if (c == '('){
+               buffer[len_buffer] = c;
+               len_buffer++;
+               c = fgetc(fichier);
+               while (c!=')'){
+                   buffer[len_buffer] = c;
+                   len_buffer++;
+                   c = fgetc(fichier);
+               }
+               buffer[len_buffer] = c;
+               len_buffer++;
+               c = fgetc(fichier);
+           ajoute_maillon_fin (&fin, 'G', cree_arg(buffer, len_buffer));
+               // 'S' pour indiquer une chaine de caractère
+       }
         //Dernier cas : on est face à quelque chose d'anormal
         else{
             fprintf(stderr, "Le charactère %c de numéro %d n'a pas été reconnu.", c, (int) c);
@@ -265,4 +222,12 @@ maillon* lexeur (FILE* fichier){
         }
     }
     return debut;
+}
+
+maillon* easy_strings_jumper(maillon* depart){
+    depart = depart->suivant;
+    while(depart->lexeme == '_' || depart->lexeme == 'N'){
+        depart = depart->suivant;
+    }
+    return depart;
 }
