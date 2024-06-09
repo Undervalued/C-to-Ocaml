@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
-#include "lexer.h"
+#include "./../../lexer.h"
 #include "Declaration_Manager.h"
 
 

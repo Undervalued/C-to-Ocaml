@@ -9,7 +9,7 @@
 #define Comment_Manager_h
 
 #include <stdio.h>
-#include "lexer.h"
+#include "./../../lexer.h"
 #include "Manager.h"
 void BuildComment (maillon* debut);
 #endif /* Comment_Manager_h */

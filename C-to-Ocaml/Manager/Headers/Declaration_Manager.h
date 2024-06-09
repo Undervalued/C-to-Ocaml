@@ -11,20 +11,26 @@
 #include <stdio.h>
 #include <assert.h>
 #include <stdlib.h>
-#include "lexer.h"
-#include "traducteur.h"
+#include "./../../lexer.h"
+#include "./../../traducteur.h"
 struct DeclarationBuilder {
     char* start_dcl;
     char* type;
     char* name;
 };
 typedef struct DeclarationBuilder DeclarationBuilder;
-
 struct VariableBuilder {
     DeclarationBuilder* dcl;
     char* start_vb;
     char* value;
 };
+
+struct FunctionBuilder {
+    DeclarationBuilder* dcl;
+    char* arg;
+    char* body;
+};
+typedef struct FunctionBuilder FunctionBuilder;
 typedef struct VariableBuilder VariableBuilder;
 
 void AssignValue (maillon* debut, DeclarationBuilder* dcl);

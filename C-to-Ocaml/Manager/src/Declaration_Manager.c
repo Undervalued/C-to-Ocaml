@@ -5,7 +5,7 @@
 //  Created by Robin PETIT on 26/05/2024.
 //
 
-#include "Declaration_Manager.h"
+#include "./../Headers/Declaration_Manager.h"
 
 DeclarationBuilder* AssignSymbolDeclaration (maillon* debut){
     DeclarationBuilder* dcl = malloc(sizeof(DeclarationBuilder));
@@ -21,9 +21,8 @@ DeclarationBuilder* AssignSymbolDeclaration (maillon* debut){
 }
 
 int Declaration_Switcher (maillon* debut, DeclarationBuilder* dcl){
-    printf("lexeme :%c",debut->lexeme);
+    //Debogage : printf("lexeme :%c",debut->lexeme);
     if (debut->lexeme == 'E'){
-        printf("\ntest1\n");
         AssignValue(debut, dcl);
     };
     return 0;
@@ -46,7 +45,6 @@ void AssignValue (maillon* debut, DeclarationBuilder* dcl){
         }
         debut = debut->suivant;
     }
-    printf("\n test2 \n");
     BuildVariable(vb);
 }
 

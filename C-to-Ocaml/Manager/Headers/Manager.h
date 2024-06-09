@@ -10,7 +10,7 @@
 
 #include <stdio.h>
 #include <assert.h>
-#include "lexer.h" //importe les fonctions du fichier lexer.c
+#include "./../../lexer.h" //importe les fonctions du fichier lexer.c
 #include "Declaration_Manager.h"
 #include "Comment_Manager.h"
 void Line_Analyse (maillon* start);

@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "lexer.h": "c",
+        "manager.h": "c",
+        "declaration_manager.h": "c",
+        "traducteur.h": "c",
+        "comment_manager.h": "c"
+    }
+}
