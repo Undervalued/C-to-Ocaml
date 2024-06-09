@@ -6,7 +6,7 @@ int main(void){
     output = fopen("s.ml", "w+");
     maillon* lex = lexeur(input);
     lex = lex->suivant;
-   // affiche_liste(lex);
+    affiche_liste(lex);
     Line_Analyse(lex);
     //write_list(lex);
     fclose(input);
@@ -14,5 +14,6 @@ int main(void){
 }
 
 void Line_Writer(char* line){
-    fprintf(output, "%s;;\n",line);
+    printf("%s\n",line);
+    fprintf(output, "%s\n",line);
 };

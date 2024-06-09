@@ -25,6 +25,13 @@ void Line_Analyse (maillon* start){
         else if (start->lexeme == 'C'){
             BuildComment(start);
         }
+        else if (start->lexeme == 'P' && strcmp(start->argument,"}")==0){
+            Line_Writer(";;");
+        }
+        else if (start->lexeme == 'M' && strcmp(start->argument,"return")==0){
+            start = easy_strings_jumper(start);
+            Line_Writer(start->argument);
+        }
         start = start->suivant;
        // printf("Error : Impossible to analyse this line\n") ;
     }

@@ -49,8 +49,8 @@ const int len_ponctuation = 10;
 const char* type[] = {"bool", "int", "void"};
 //TODO : Pour le préprocessing
 const int len_type = 3;
-const char* motcle[] = {"while","printf"};
-const int len_motcle = 2;
+const char* motcle[] = {"while","printf","const","return"};
+const int len_motcle = 4;
 const char operateurs_simples[] = {'+', '-', '/', '*', '%'};
 const int len_ops = 5;
 const char operateurs_doubles[] = {'=', '|', '&','<','>','!'};
@@ -180,7 +180,7 @@ maillon* lexeur (FILE* fichier){
 
             }
         }
-
+        //TODO : Gestion des pointeurs, pour l'instant problème de convertion pour les arguments de type char* dans les fonctions.
         // Cas 4 : on récupère un opérateur qui peut apparaitre seul et/ou à côté d'un autre
         else if ( char_in (c, operateurs_doubles, len_opd)){
             char d = c;
@@ -253,7 +253,7 @@ maillon* lexeur (FILE* fichier){
            // 'N' pour indiquer un retour chariot
            c = fgetc(fichier);
        }
-        //Gestion des arguments
+        /*Gestion des arguments
        else if (c == '('){
                buffer[len_buffer] = c;
                len_buffer++;
@@ -269,6 +269,7 @@ maillon* lexeur (FILE* fichier){
            ajoute_maillon_fin (&fin, 'G', cree_arg(buffer, len_buffer));
                // 'S' pour indiquer une chaine de caractère
        }
+       */
         //Dernier cas : on est face à quelque chose d'anormal
         else{
             fprintf(stderr, "Le charactère %c de numéro %d n'a pas été reconnu.", c, (int) c);

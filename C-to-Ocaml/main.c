@@ -1,11 +1,6 @@
-int main(int argc, const char* argv[]) {
-    printf("Hello, World!\n");
-    int verb = 1+1;
-    int y = y + 7;
-    printf ("testz %d",y);
+int main(int argc, const int argv[]) {
+}
+
+int test (int a, bool b) {
     return 0;
-    //test
-    /* Grod test
-     Gros Gros test
-     */
 }
