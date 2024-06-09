@@ -14,5 +14,8 @@
 #include "Declaration_Manager.h"
 #include "Comment_Manager.h"
 #include "Printf_Manager.h"
+#include "While_Manager.h"
+#include "For_Manager.h"
+#include "Conditionnels_Manager.h"
 void Line_Analyse (maillon* start);
 #endif /* Manager_h */

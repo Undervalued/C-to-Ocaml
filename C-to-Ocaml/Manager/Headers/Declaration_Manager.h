@@ -34,7 +34,7 @@ typedef struct FunctionBuilder FunctionBuilder;
 typedef struct VariableBuilder VariableBuilder;
 
 void AssignValue (maillon* debut, DeclarationBuilder* dcl);
-DeclarationBuilder* AssignSymbolDeclaration (maillon* maillon);
+int AssignSymbolDeclaration (maillon* maillon);
 void BuildVariable (VariableBuilder* vb);
 int Declaration_Switcher (maillon* debut, DeclarationBuilder* dcl);
 void AssignArg (maillon* debut, DeclarationBuilder* dcl);

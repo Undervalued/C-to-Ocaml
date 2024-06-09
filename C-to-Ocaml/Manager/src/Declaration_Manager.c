@@ -7,7 +7,7 @@
 
 #include "./../Headers/Declaration_Manager.h"
 
-DeclarationBuilder* AssignSymbolDeclaration (maillon* debut){
+int AssignSymbolDeclaration (maillon* debut){
     DeclarationBuilder* dcl = malloc(sizeof(DeclarationBuilder));
     dcl->start_dcl = "let";
     assert(debut->lexeme == 'T');
@@ -36,7 +36,6 @@ void AssignValue (maillon* debut, DeclarationBuilder* dcl){
     debut = easy_strings_jumper(debut->suivant);
     VariableBuilder* vb = malloc(sizeof(VariableBuilder));
     vb->dcl = dcl;
-    //TODO gérer les int qqchose = "string"
     vb->start_vb = "ref";
     vb->value = malloc(50*sizeof(char));
     while (strcmp(debut->argument,";") == 0 && debut->lexeme != 'P'){
@@ -74,9 +73,9 @@ void AssignArg (maillon* debut, DeclarationBuilder* dcl){
         if(debut->lexeme == 'V'){
             strcat(fb->arg, debut->argument);
         }
-        else if (debut->lexeme == 'P' && strcmp(debut->argument, ",") == 0){
+        else if (strcmp(debut->argument, ",") == 0){
             strcat(fb->arg, " ");
-        };
+        }
         debut = debut->suivant;
     }
     printf("lexeme : %c\n",debut->lexeme);

@@ -49,7 +49,7 @@ const int len_ponctuation = 10;
 const char* type[] = {"bool", "int", "void"};
 //TODO : Pour le préprocessing
 const int len_type = 3;
-const char* motcle[] = {"while","printf","const","return"};
+const char* motcle[] = {"while","printf","const","return","if","else","for"};
 const int len_motcle = 4;
 const char operateurs_simples[] = {'+', '-', '/', '*', '%'};
 const int len_ops = 5;

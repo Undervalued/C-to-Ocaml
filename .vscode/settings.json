@@ -5,6 +5,10 @@
         "declaration_manager.h": "c",
         "traducteur.h": "c",
         "comment_manager.h": "c",
-        "printf_manager.h": "c"
+        "printf_manager.h": "c",
+        "while_manager.h": "c",
+        "conditionnels_manager.h": "c",
+        "for_manager.h": "c",
+        "stdio.h": "c"
     }
 }

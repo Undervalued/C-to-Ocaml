@@ -16,11 +16,8 @@ void Line_Analyse (maillon* start){
             AssignSymbolDeclaration(start);
             
         }
-        if(start->lexeme == 'M' && strcmp(start->argument, "printf") == 0){
+        else if(start->lexeme == 'M' && strcmp(start->argument, "printf") == 0){
             Printf_Manager(start);
-        }
-        else if (start->lexeme == 'V'){
-            
         }
         else if (start->lexeme == 'C'){
             BuildComment(start);
@@ -31,6 +28,15 @@ void Line_Analyse (maillon* start){
         else if (start->lexeme == 'M' && strcmp(start->argument,"return")==0){
             start = easy_strings_jumper(start);
             Line_Writer(start->argument);
+        }
+        else if (start->lexeme == 'M' && strcmp(start->argument,"while")==0){
+            While_Manager(start);
+        }
+        else if (start->lexeme == 'M' && strcmp(start->argument,"if")==0){
+            Conditionnels_Manager(start);
+        }
+        else if (start->lexeme == 'M' && strcmp(start->argument,"for")==0){
+            For_Manager(start);
         }
         start = start->suivant;
        // printf("Error : Impossible to analyse this line\n") ;
