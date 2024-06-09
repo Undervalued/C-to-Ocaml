@@ -1,6 +1,6 @@
 #include "./../Headers/While_Manager.h"
 
-maillon* While_Manager(maillon* start){
+void While_Manager(maillon* start){
     start = start->suivant; // On saute le mot cle while
     char condition[512] = "while ";
     // On lit la condition qu'est dans la parenthese.
@@ -27,8 +27,18 @@ maillon* While_Manager(maillon* start){
     }
     strcat(condition, " do\n");
     Line_Writer(condition); // on ecrit la ligne while (conditions) do 
+    int crochets = 1;
     // On parcourt le contennu de la boucle, et une fois qu'on a fini on ecrit done;;
-    start = Line_Analyse_Loop (start);
-    Line_Writer("done;;");
-    return start;
+    while (crochets > 0){
+        if((start->lexeme == 'P' && strcmp(start->argument, "{") == 0)){
+            crochets+=1;
+        }
+        else if((start->lexeme == 'P' && strcmp(start->argument, "}") == 0)){
+            crochets-=1;
+        }else{
+            Line_Analyse(start);
+        }
+        start = start -> suivant;    
+    }
+    Line_Writer("done;;\n");
 }

@@ -12,5 +12,5 @@
 #include <assert.h>
 #include "./../../lexer.h" //importe les fonctions du fichier lexer.c
 #include "./../../traducteur.h"
-maillon* Conditionnels_Manager (maillon* start);
+void Conditionnels_Manager (maillon* start);
 #endif /* Conditionnels_Manager */

@@ -7,7 +7,7 @@
 
 #include "./../Headers/Declaration_Manager.h"
 
-maillon* AssignSymbolDeclaration (maillon* debut){
+int AssignSymbolDeclaration (maillon* debut){
     DeclarationBuilder* dcl = malloc(sizeof(DeclarationBuilder));
     dcl->start_dcl = "let";
     assert(debut->lexeme == 'T');
@@ -17,21 +17,22 @@ maillon* AssignSymbolDeclaration (maillon* debut){
     assert(debut->lexeme == 'V');
     dcl->name = debut->argument;
     debut = easy_strings_jumper(debut);
-    debut = Declaration_Switcher(debut, dcl);
-    return debut;
+    Declaration_Switcher(debut, dcl);
+    return 0;
 }
 
-maillon* Declaration_Switcher (maillon* debut, DeclarationBuilder* dcl){
+int Declaration_Switcher (maillon* debut, DeclarationBuilder* dcl){
+    Debogage : printf("lexeme :%c, Argument :%s\n",debut->lexeme,debut->argument);
     if (debut->lexeme == 'E'){
-        debut = AssignValue(debut, dcl);
+        AssignValue(debut, dcl);
     };
     if (debut->lexeme == 'P' && strcmp(debut->argument, "(") == 0){
-        debut = AssignArg(debut, dcl);
+        AssignArg(debut, dcl);
     };
-    return debut;
+    return 0;
 }
 
-maillon* AssignValue (maillon* debut, DeclarationBuilder* dcl){
+void AssignValue (maillon* debut, DeclarationBuilder* dcl){
     debut = easy_strings_jumper(debut->suivant);
     VariableBuilder* vb = malloc(sizeof(VariableBuilder));
     vb->dcl = dcl;
@@ -48,7 +49,6 @@ maillon* AssignValue (maillon* debut, DeclarationBuilder* dcl){
         debut = debut->suivant;
     }
     BuildVariable(vb);
-    return debut;
 }
 
 void BuildVariable (VariableBuilder* vb){
@@ -64,7 +64,7 @@ void BuildVariable (VariableBuilder* vb){
     Line_Writer(line);
 }
 
-maillon* AssignArg (maillon* debut, DeclarationBuilder* dcl){
+void AssignArg (maillon* debut, DeclarationBuilder* dcl){
     FunctionBuilder* fb = malloc(sizeof(FunctionBuilder));
     fb->dcl = dcl;
     debut = easy_strings_jumper(debut->suivant);
@@ -78,17 +78,15 @@ maillon* AssignArg (maillon* debut, DeclarationBuilder* dcl){
         }
         debut = debut->suivant;
     }
+    printf("lexeme : %c\n",debut->lexeme);
+    printf("arg : %s\n",fb->arg);
     strcat(fb->arg, " = ");
     BuildArg(fb);
-    debut = AssignBody(debut, fb);
-    return debut;
+    AssignBody(debut, fb);
 }
 
-maillon* AssignBody (maillon* debut, FunctionBuilder* fb){
+void AssignBody (maillon* debut, FunctionBuilder* fb){
     debut = easy_strings_jumper(debut->suivant);
-    debut = Line_Analyse_Loop(debut);
-    Line_Writer(";;");
-    return debut;
 }
 
 void BuildArg (FunctionBuilder* fb){
@@ -98,28 +96,7 @@ void BuildArg (FunctionBuilder* fb){
     strcat(line, fb->dcl->name);
     strcat(line, " ");
     strcat(line, fb->arg);
+    printf("line : %s\n",line);
     Line_Writer(line);
     free(line);
-}
-
-maillon* Affectation_Manager (maillon* debut){
-    assert(debut->lexeme == 'V');
-    printf("lexeme : %c | Argument : %s",debut->lexeme,debut->argument);
-    char line[256] = "";
-    strcat(line, debut->argument);
-    debut = easy_strings_jumper(debut);
-    strcat(line, " := ");
-    while (strcmp(debut->argument, ";") != 0){
-        if(debut->lexeme == 'V'){
-            strcat(line, "!");
-            strcat(line, debut->argument);
-        }
-        else{
-            strcat(line, debut->argument);
-        }
-        debut = debut->suivant;
-    }
-    Line_Writer(line);
-    debut = easy_strings_jumper(debut);
-    return debut;
 }
