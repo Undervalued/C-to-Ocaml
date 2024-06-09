@@ -8,7 +8,7 @@
 #include "./../Headers/Manager.h"
 
 //Fonction d'anayse de la liste chaîné
-void Line_Analyse (maillon* start){
+maillon* Line_Analyse (maillon* start){
     //On vérifie que 
     assert (start != NULL);
     while (start != NULL){
@@ -21,7 +21,7 @@ void Line_Analyse (maillon* start){
             start = Affectation_Manager(start);
         }
         else if(start->lexeme == 'M' && strcmp(start->argument, "printf") == 0){
-            Printf_Manager(start);
+            start = Printf_Manager(start);
         }
         else if (start->lexeme == 'C'){
             BuildComment(start);
@@ -40,11 +40,12 @@ void Line_Analyse (maillon* start){
             start = Conditionnels_Manager(start);
         }
         else if (start->lexeme == 'M' && strcmp(start->argument,"for")==0){
-            For_Manager(start);
+            start = For_Manager(start);
         }
         start = start->suivant;
        // printf("Error : Impossible to analyse this line\n") ;
     }
+    return start;
 }
 
 maillon* Line_Analyse_Loop (maillon* start){

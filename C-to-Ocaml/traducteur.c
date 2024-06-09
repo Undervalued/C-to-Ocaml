@@ -7,7 +7,10 @@ int main(void){
     maillon* lex = lexeur(input);
     lex = lex->suivant;
     affiche_liste(lex);
-    Line_Analyse(lex);
+    while (lex->suivant != NULL){
+        lex = Line_Analyse(lex);
+
+    }
     //write_list(lex);
     fclose(input);
     fclose(output);

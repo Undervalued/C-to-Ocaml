@@ -107,10 +107,8 @@ maillon* Affectation_Manager (maillon* debut){
     printf("lexeme : %c | Argument : %s",debut->lexeme,debut->argument);
     char line[256] = "";
     strcat(line, debut->argument);
-    debut = easy_strings_jumper(debut->suivant);
-    strcat(line, " := ");
-    debut = debut->suivant;
     debut = easy_strings_jumper(debut);
+    strcat(line, " := ");
     while (strcmp(debut->argument, ";") != 0){
         if(debut->lexeme == 'V'){
             strcat(line, "!");
