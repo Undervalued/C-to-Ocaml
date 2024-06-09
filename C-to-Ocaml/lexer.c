@@ -44,13 +44,13 @@ void libere_liste (maillon* debut){
 
 // Ici on définit des lexèmes qui nous intéressent. Si vous en rajoutez, pensez à changer la taille des tableaux.
 
-const char ponctuation[] = {'{', '}', ';', ',', '[',']'};
-const int len_ponctuation = 8;
+const char ponctuation[] = {'{', '}', ';', ',', '[',']', '(', ')'};
+const int len_ponctuation = 10;
 const char* type[] = {"bool", "int", "void"};
 //TODO : Pour le préprocessing
 const int len_type = 3;
-const char* motcle[] = {"while"};
-const int len_motcle = 1;
+const char* motcle[] = {"while","printf"};
+const int len_motcle = 2;
 const char operateurs_simples[] = {'+', '-', '/', '*', '%'};
 const int len_ops = 5;
 const char operateurs_doubles[] = {'=', '|', '&','<','>','!'};

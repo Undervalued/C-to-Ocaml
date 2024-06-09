@@ -16,6 +16,9 @@ void Line_Analyse (maillon* start){
             AssignSymbolDeclaration(start);
             
         }
+        if(start->lexeme == 'M' && strcmp(start->argument, "printf") == 0){
+            Printf_Manager(start);
+        }
         else if (start->lexeme == 'V'){
             
         }
@@ -23,6 +26,6 @@ void Line_Analyse (maillon* start){
             BuildComment(start);
         }
         start = start->suivant;
-        printf("Error : Impossible to analyse this line\n") ;
+       // printf("Error : Impossible to analyse this line\n") ;
     }
 }
