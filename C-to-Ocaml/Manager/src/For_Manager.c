@@ -49,19 +49,6 @@ void For_Manager(maillon* start){
     Line_Writer(condition);
     int crochets = 1;
     start = start -> suivant; // on saute la ) qu'est reste de la boucle d'avans
-    while (crochets > 0){
-        if((start->lexeme == 'P' && strcmp(start->argument, "{") == 0)){
-            crochets+=1;
-        }
-        else if((start->lexeme == 'P' && strcmp(start->argument, "}") == 0)){
-            crochets-=1;
-        }else{
-            Line_Analyse(start);
-            // printf("%s", start->argument);
-        }
-        start = start -> suivant;
-    }
+    Line_Analyse_Loop(start);
     Line_Writer("done;;\n");
-    printf("done;;\n:::::::::::::::\n"); // write_line "done;;\n"
-
 }

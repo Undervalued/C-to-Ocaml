@@ -12,5 +12,5 @@
 #include <assert.h>
 #include "./../../lexer.h" //importe les fonctions du fichier lexer.c
 #include "./../../traducteur.h"
-void While_Manager (maillon* start);
+maillon* While_Manager (maillon* start);
 #endif /* While_Manager */

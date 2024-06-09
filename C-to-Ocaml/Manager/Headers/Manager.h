@@ -18,4 +18,6 @@
 #include "For_Manager.h"
 #include "Conditionnels_Manager.h"
 void Line_Analyse (maillon* start);
+maillon* Line_Analyse_Loop (maillon* start);
+void Line_Analyse_FuncAndCond (maillon* start);
 #endif /* Manager_h */

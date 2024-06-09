@@ -1,6 +1,6 @@
 #include "./../Headers/Conditionnels_Manager.h"
 
-void Conditionnels_Manager(maillon* start){
+maillon* Conditionnels_Manager(maillon* start){
     char condition[512] = "";
     bool concat_then = false;
     if(strcmp(start->argument, "if") == 0){
@@ -36,22 +36,8 @@ void Conditionnels_Manager(maillon* start){
     strcat(condition, "\nBEGIN\n");
     Line_Writer(condition); // on ecrit la ligne while (conditions) do 
     // printf("%s", condition);
-
-    int crochets = 1;
-    // On parcourt le contennu du if, et une fois qu'on a fini on ecrit END;;
-    while (crochets > 0){
-        if((start->lexeme == 'P' && strcmp(start->argument, "{") == 0)){
-            crochets+=1;
-        }
-        else if((start->lexeme == 'P' && strcmp(start->argument, "}") == 0)){
-            crochets-=1;
-        }else{
-            Line_Analyse(start);
-            // printf("%s", start->argument);
-        }
-        start = start -> suivant;
-    }
+    start = Line_Analyse_Loop (start);
     Line_Writer("END\n");
     // printf("END\n");
-
+    return start;
 }

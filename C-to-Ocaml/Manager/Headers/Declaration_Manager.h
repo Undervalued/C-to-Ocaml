@@ -33,11 +33,12 @@ struct FunctionBuilder {
 typedef struct FunctionBuilder FunctionBuilder;
 typedef struct VariableBuilder VariableBuilder;
 
-void AssignValue (maillon* debut, DeclarationBuilder* dcl);
-int AssignSymbolDeclaration (maillon* maillon);
+maillon* AssignValue (maillon* debut, DeclarationBuilder* dcl);
+maillon* AssignSymbolDeclaration (maillon* maillon);
 void BuildVariable (VariableBuilder* vb);
-int Declaration_Switcher (maillon* debut, DeclarationBuilder* dcl);
-void AssignArg (maillon* debut, DeclarationBuilder* dcl);
-void AssignBody (maillon* debut, FunctionBuilder* fb);
+maillon* Declaration_Switcher (maillon* debut, DeclarationBuilder* dcl);
+maillon* AssignArg (maillon* debut, DeclarationBuilder* dcl);
+maillon* AssignBody (maillon* debut, FunctionBuilder* fb);
 void BuildArg (FunctionBuilder* fb);
+maillon* Affectation_Manager (maillon* debut);
 #endif /* Declaration_Manager_h */
