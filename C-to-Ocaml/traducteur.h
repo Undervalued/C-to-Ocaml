@@ -11,7 +11,7 @@
 #include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
-#include "Manager.h"
-#include "lexer.h" //importe les fonctions du fichier lexer.c
+#include "./Manager/Headers/Manager.h"
+#include "./lexer.h" //importe les fonctions du fichier lexer.c
 void Line_Writer(char* line);
 #endif /* traducteur_h */

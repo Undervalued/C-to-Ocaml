@@ -2,8 +2,8 @@
 FILE* input;
 FILE* output;
 int main(void){
-    input = fopen("/Users/robin/Workspace_Developpement/XCode/C-to-Ocaml/C-to-Ocaml/main.c","r");
-    output = fopen("/Users/robin/Workspace_Developpement/XCode/C-to-Ocaml/C-to-Ocaml/s.ml", "w+");
+    input = fopen("main.c","r");
+    output = fopen("s.ml", "w+");
     maillon* lex = lexeur(input);
     lex = lex->suivant;
     affiche_liste(lex);
@@ -14,6 +14,5 @@ int main(void){
 }
 
 void Line_Writer(char* line){
-    
     fprintf(output, "%s;;\n",line);
 };

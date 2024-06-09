@@ -13,7 +13,10 @@ void Line_Analyse (maillon* start){
     while (start != NULL){
         if (start->lexeme=='T'){
             AssignSymbolDeclaration(start);
-            
+        }
+
+        if(start->lexeme == 'M' && strcmp(start->argument, "printf") == 0){
+            Printf_manager(start);
         }
         else if (start->lexeme == 'V'){
             

@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "string.h": "c",
+        "manager.h": "c",
+        "traducteur.h": "c"
+    }
+}
