@@ -3,6 +3,8 @@
         "string.h": "c",
         "manager.h": "c",
         "traducteur.h": "c",
-        "lexer.h": "c"
+        "lexer.h": "c",
+        "conditionnels_manager.h": "c",
+        "stdio.h": "c"
     }
 }
