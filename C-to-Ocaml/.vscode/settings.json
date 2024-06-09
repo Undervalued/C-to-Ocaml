@@ -2,6 +2,7 @@
     "files.associations": {
         "string.h": "c",
         "manager.h": "c",
-        "traducteur.h": "c"
+        "traducteur.h": "c",
+        "lexer.h": "c"
     }
 }
